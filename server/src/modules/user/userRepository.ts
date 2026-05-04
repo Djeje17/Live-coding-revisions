@@ -13,7 +13,7 @@ export interface IUser {
     updatedAt: Date;
 }
 class UserRepository {
-    async create(user: Omit<IUser, "id" | "createdAt" | "updatedAt">) {
+    static async create(user: Omit<IUser, "id" | "createdAt" | "updatedAt">) {
         const [result] = await client.query<ResultSetHeader>(
             "insert into users (email, firstName, lastName, password) values (?, ?, ?, ?)",
             [user.email, user.firstName, user.lastName, user.hashPassword]
@@ -21,17 +21,17 @@ class UserRepository {
         return result.insertId;
     }
 
-    async readAll() {
+    static async readAll() {
         const [rows] = await client.query("select * from users");
         return rows as IUser[];
     }
 
-    async read(id: number) {
+    static async read(id: number) {
         const [rows] = await client.query("select * from users where id = ?", [id]);
         return rows as IUser[];
     }
 
-    async update(user: Omit<IUser, "createdAt" | "updatedAt">) {
+    static async update(user: Omit<IUser, "createdAt" | "updatedAt">) {
         const [result] = await client.query<ResultSetHeader>(
             "update users set email = ?, firstName = ?, lastName = ?, password = ? where id = ?",
             [user.email, user.firstName, user.lastName, user.hashPassword, user.id]
@@ -39,7 +39,7 @@ class UserRepository {
         return result.affectedRows;
     }
 
-    async delete(id: number) {
+    static async delete(id: number) {
         const [result] = await client.query<ResultSetHeader>(
             "delete from users where id = ?",
             [id]

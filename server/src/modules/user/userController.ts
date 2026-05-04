@@ -2,13 +2,12 @@ import type { Request, Response } from "express";
 import UserRepository, { type IUser } from "./userRepository";
 import * as argon2 from "argon2";
 
-const userRepository = new UserRepository();
 
 const userController = {
     async create(req: Request, res: Response) {
         try {
             const { email, firstName, lastName, password } = req.body;
-            const existingUsers = await userRepository.findByEmail(email);
+            const existingUsers = await UserRepository.findByEmail(email);
             if (existingUsers.length > 0) {
                 return res.status(400).json({ error: "Cet email est déjà utilisé" });
             }
@@ -19,7 +18,7 @@ const userController = {
                 lastName: lastName,
                 password: hashPassword
             }
-            const id = await userRepository.create(newUser as IUser);
+            const id = await UserRepository.create(newUser as IUser);
             res.status(201).json({ id });
         } catch (error) {
             res.status(500).json({ error: "Erreur lors de la création de l'utilisateur" });
@@ -28,7 +27,7 @@ const userController = {
 
     async readAll(req: Request, res: Response) {
         try {
-            const users = await userRepository.readAll();
+            const users = await UserRepository.readAll();
             res.json(users);
         } catch (error) {
             res.status(500).json({ error: "Erreur lors de la récupération des utilisateurs" });
@@ -39,7 +38,7 @@ const userController = {
         try {
             
             const id = Number(req.params.id);
-            const users = await userRepository.read(id);
+            const users = await UserRepository.read(id);
             if (users.length === 0) {
                 res.status(404).json({ error: "Utilisateur non trouvé" });
             } else {
@@ -61,7 +60,7 @@ const userController = {
                 lastName: lastName,
                 password: hashPassword
             }
-            const affectedRows = await userRepository.update(updateUser as IUser);
+            const affectedRows = await UserRepository.update(updateUser as IUser);
             if (affectedRows === 0) {
                 res.status(404).json({ error: "Utilisateur non trouvé" });
             } else {
@@ -75,7 +74,7 @@ const userController = {
     async delete(req: Request, res: Response) {
         try {
             const id = Number(req.params.id);
-            const affectedRows = await userRepository.delete(id);
+            const affectedRows = await UserRepository.delete(id);
             if (affectedRows === 0) {
                 res.status(404).json({ error: "Utilisateur non trouvé" });
             } else {
