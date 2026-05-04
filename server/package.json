@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "build": "",
-    "dev": "tsx watch ./src/app.ts"
+    "dev": "tsx watch ./src/app.ts",
+    "check": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
