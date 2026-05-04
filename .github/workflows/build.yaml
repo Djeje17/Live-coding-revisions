@@ -16,11 +16,11 @@ jobs:
           node-version: '18'
       
       - name: Install dependancies
-        run: npm ci
+        run: cd server && npm ci
 
       - name: Check build
         run: npm run check
-        
+
       - name: Run tests
         run : npm run test
 
