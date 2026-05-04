@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "",
+    "build": "tsc",
     "dev": "tsx watch ./src/app.ts",
     "check": "tsc --noEmit"
   },

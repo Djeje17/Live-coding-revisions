@@ -41,6 +41,6 @@
     "skipLibCheck": true,
     "ignoreDeprecations": "6.0"
   },
-  // "include": ["database"],
-  "exclude": ["jest.config.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["jest.config.ts, node_modules", "dist"]
 }
